@@ -20,4 +20,8 @@ Slist* slist_add_head(Slist *list,int32_t element);
 Slist* slist_add_tail(Slist *list,int32_t element);
 Slist* slist_delete_head(Slist *list);
 Slist* slist_delete_head(Slist *list);
+int32_t max_ele(Slist *list);
+int32_t min_ele(Slist *list);
+Slist* add_element_after_specified(Slist *list,int32_t ele,int32_t spec);
+SList* delete_specified_ele(Slist *list,int32_t ele);
 #endif
