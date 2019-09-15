@@ -63,16 +63,169 @@ uint32_t slist_lookup(const Slist *list, int32_t key)
 	return(cur!=NULL);
 }
 
-int main()
+Slist* slist_delete_head(Slist *list)
 {
-	Slist s = slist_new();
-	Slist *list = &s;
-	list = slist_add_head(list, 50);
-	assert(slist_length(list) == 1);
-	list = slist_add_head(list, 20);
-	list = slist_add_head(list, 10);
-	list = slist_add_head(list, 30);
-	slist_lookup(list,10);
-	print_node(list);
-	return 0;
+	Node *temp;
+	if (list->head!=NULL)
+	{
+		temp=list->head;
+		list->head=list->head->next;
+		if (list->head==NULL)
+		{
+			list->tail=NULL;
+		}
+		--list->length;
+		free(temp);
+	}
+	return list;
 }
+
+Slist* slist_add_tail(Slist *list,int32_t element)
+{
+	assert(list!=NULL);
+	Node *new_node=slist_new_node(element);
+	if (list->tail!=NULL)
+	{
+		list->tail->next=new_node;
+		list->tail=new_node;
+	}
+	else
+	{
+		list->tail=list->head=new_node;
+	}
+	++list->length;
+	return list;
+}
+
+Slist* slist_delete_tail(Slist *list)
+{
+	Node *cur,*tail;
+	assert(list!=NULL);
+	if (list->tail==NULL)
+	{
+		return list;
+	}
+	else
+	{
+		
+	    	tail=list->tail;
+	    	if (list->length>1)
+	    		{
+	    			for (cur=list->head;cur->next!=tail;cur=cur->next);
+	    				list->tail=cur;
+	    				cur->next=NULL;
+	    		}
+	         else list->head=list->tail=NULL;
+
+		--list->length;
+		free(tail);
+	}
+	return list;
+}
+
+int32_t max_ele(Slist *list)
+{
+	Node *cur=list->head;
+	int32_t max=0;
+	assert(list!=NULL);
+	if (list->length==1)
+	{
+		return cur->data;
+	}
+	else
+	{
+		for (cur=list->head;cur!=NULL;cur=cur->next)
+		{
+			if (max<cur->data)
+			{
+				max=cur->data;
+			}
+		}
+	}
+	return max;
+}
+
+
+int32_t min_ele(Slist *list)
+{
+	Node *cur=list->head;
+	int32_t min=cur->data;
+	assert(list!=NULL);
+	if (list->length==1)
+	{
+		return cur->data;
+	}
+	else
+	{
+		for (cur=list->head;cur!=NULL;cur=cur->next)
+		{
+			if (min>cur->data)
+			{
+				min=cur->data;
+			}
+		}
+	}
+	return min;
+}
+
+Slist* add_element_after_specified(Slist *list,int32_t ele,int32_t spec)
+{
+	assert(list!=NULL);
+	Node *cur, *temp;
+	Node *new_node=slist_new_node(ele);
+	if((list->head==spec)&&(list->head->next==NULL))
+	{
+		list->head->next=new_node;
+		list->tail=new_node;
+	}
+	else if((list->tail==spec)&&(list->tail->next==NULL))
+	{
+		list->tail->next=new_node;
+		list->tail=new_node;
+		list->tail->next=NULL;
+	}
+	else
+	{
+		for(cur=list->head;cur!=NULL;cur=cur->next)
+		{
+			if(spec==cur->data)
+			{
+				new_node->next=cur->next;
+				cur->next=new_node;
+			}
+		}
+	}
+	++list->length;
+	return list;
+}
+
+SList* delete_specified_ele(Slist *list,int32_t ele)
+{
+	assert(list!=NULL)
+	Node *cur=list->head,*temp;
+	if(cur->data==ele)
+	{
+		list->head=cur->next;
+		free(cur);
+	}
+	else
+	{
+		for(cur=list->head;cur!=NULL;cur=cur->next)
+		{
+			if(cur->data==ele)
+			{
+				temp=cur->next;
+				break;
+			}
+		}	
+	        cur->next=temp->next;
+	        temp->next=NULL;
+	        free(temp);
+	}
+	--list->length;
+	return list;
+}
+	
+				
+	
+	
