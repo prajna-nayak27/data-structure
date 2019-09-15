@@ -32,36 +32,36 @@ return 0;
 void test_conditions()
 {
 
-	Slist s = slist_new();
+	Slist s = slist_new_node();
 	Slist *list = &s;
-	list = add_head(list, 10);
+	list = slist_add_head(list, 10);
 	assert (slist_length(list) == 1);
-	list = add_head(list, 20);
-	list = add_head(list, 30);
-	list = add_head(list, 40);
-	list = add_head(list, 50);
+	list = slist_add_head(list, 20);
+	list = slist_add_head(list, 30);
+	list = slist_add_head(list, 40);
+	list = slist_add_head(list, 50);
         
 	assert(slist_length(list)== 5);
-	assert(lookup(list,30));
+	assert(slist_lookup(list,30));
       
-        list=add_tail(list,60);
-        assert(lookup(list,60));
+        list=slist_add_tail(list,60);
+        assert(slist_lookup(list,60));
         
-        list=delete_head(list);
+        list=slist_delete_head(list);
         
-        assert(!lookup(list,50));
+        assert(!slist_lookup(list,50));
        
-        list=delete_tail(list);
-        assert(!lookup(list,60));
+        list=slist_delete_tail(list);
+        assert(!slist_lookup(list,60));
         
-       assert(minimum(list)==10);
-       assert(maximum(list)==40);
+       assert(max_ele(list)==10);
+       assert(min_ele(list)==40);
        
       list=add_element_after_specified(list,60,40);
-      assert(lookup(list,60));
+      assert(slist_lookup(list,60));
       
-      list= delete_specified(list,10);
-      assert(!lookup(list,10));
+      list= delete_specified_ele(list,10);
+      assert(!slist_lookup(list,10));
       
 }
 
